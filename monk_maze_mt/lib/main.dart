@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:monk_maze_mt/screens/view/home_screen.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/controller/home_controller.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'screens/view/homesceen_container.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
+
+  runApp(const MyApp(),
+    // DevicePreview(
+    //   enabled: true,
+    //   builder: (BuildContext context) =>
+    // ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,8 +29,8 @@ class MyApp extends StatelessWidget {
       providers: [ChangeNotifierProvider(create: (_) => HomeController())],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        home: HomeScreen(),
+        title: 'monk_maze - MT',
+        home: HomeScreenContainer(),
       ),
     );
   }

@@ -65,7 +65,7 @@ class HomeController extends ChangeNotifier {
       Scrollable.ensureVisible(
         context,
         duration: const Duration(milliseconds: 500),
-        alignment: 0.2,
+        // alignment: 0.2,
       );
     }
   }

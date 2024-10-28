@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../shared_widget/custom_text.dart';
-import '../controller/home_controller.dart';
+import '../../controller/home_controller.dart';
 
 class Categories extends StatelessWidget {
   const Categories({
@@ -44,7 +45,7 @@ class Categories extends StatelessWidget {
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               mainAxisSpacing: w * 0.015,
-              crossAxisSpacing: w * 0.03,
+              crossAxisSpacing: w * 0.02,
               mainAxisExtent: containerHeight,
             ),
             itemBuilder: (context, index) {
@@ -52,7 +53,9 @@ class Categories extends StatelessWidget {
                 children: [
                   SizedBox(
                       width: containerWidth,
-                      height: containerWidth + 15,
+                      height: MediaQuery.of(context).size.width > 500
+                          ? containerWidth - 13
+                          : containerWidth + 15,
                       child: Image(
                         image: AssetImage(
                           displayImageList[index % displayImageList.length],
@@ -60,6 +63,7 @@ class Categories extends StatelessWidget {
                       )),
                   Container(
                     height: h * 0.03,
+                    width: w * 0.2,
                     decoration: ShapeDecoration(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -76,12 +80,14 @@ class Categories extends StatelessWidget {
                       ],
                     ),
                     child: Center(
-                      child: CustomText(
-                        text: hP
-                            .displayNameList[index % hP.displayNameList.length],
-                        fontSize: fontSize * 0.7,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      child: Text(
+                          hP.displayNameList[index % hP.displayNameList.length],
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.manrope(
+                            fontSize: fontSize * 0.7,
+                            fontWeight: FontWeight.w500,
+                          )),
                     ),
                   ),
                 ],
