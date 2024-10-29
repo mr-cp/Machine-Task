@@ -6,6 +6,9 @@ import 'package:provider/provider.dart';
 
 import '../controller/home_controller.dart';
 import 'widgets/category_widget.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'widgets/categorylist_item.dart';
 
 class MobileView extends StatefulWidget {
   const MobileView({super.key});
@@ -32,7 +35,7 @@ class _MobileViewState extends State<MobileView> {
               color: Colors.grey[200],
             )),
         scrolledUnderElevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
         titleSpacing: 0,
         title: const CustomText(
@@ -51,7 +54,12 @@ class _MobileViewState extends State<MobileView> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.fade, child: const Interom()));
+            },
             icon: const Image(
               image: AssetImage('assets/whishlist.png'),
               height: 24,
@@ -67,230 +75,315 @@ class _MobileViewState extends State<MobileView> {
           w7,
         ],
       ),
-      body: Container(
-        height: h,
-        width: w,
-        color: Colors.white,
-        child: SafeArea(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // First column (category buttons)
-              ScrollConfiguration(
-                behavior:
-                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        width: w * 0.19,
-                        height: h ,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFF8F7FE),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color(0x14000000),
-                              blurRadius: 10,
-                              offset: Offset(0, 4),
-                              spreadRadius: 1,
+      body: SafeArea(
+        bottom: false,
+        child: MediaQuery.removePadding(
+          context: context,
+          removeBottom: true,
+          removeTop: true,
+          child: Container(
+            height: h,
+            width: w,
+            color: Colors.white,
+            child: SafeArea(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // First column (category buttons)
+                  ScrollConfiguration(
+                    behavior: ScrollConfiguration.of(context)
+                        .copyWith(scrollbars: false),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            width: w * 0.19,
+                            height: 1200,
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFF8F7FE),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x14000000),
+                                  blurRadius: 10,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 1,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          separatorBuilder: (context, index) {
-                            return Divider(
-                              height: 0,
-                              thickness: 1,
-                              color: Colors.grey[200],
-                            );
-                          },
-                          shrinkWrap: true,
-                          itemCount: hP.rowImageList.length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                context
-                                    .read<HomeController>()
-                                    .indexTapped(index);
-                                hP.scrollToCategory(index);
+                            child: ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) {
+                                return Divider(
+                                  height: 0,
+                                  thickness: 1,
+                                  color: Colors.grey[200],
+                                );
                               },
-                              child: SizedBox(
-                                height: h * 0.105,
-                                child: Row(
-                                  children: [
-                                    Column(
+                              shrinkWrap: true,
+                              itemCount: hP.rowImageList.length,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    context
+                                        .read<HomeController>()
+                                        .indexTapped(index);
+                                    hP.scrollToCategory(index);
+                                  },
+                                  child: SizedBox(
+                                    height: h * 0.105,
+                                    child: Row(
                                       children: [
-                                        Expanded(
-                                          child: Container(
-                                            width: w * 0.01,
-                                            decoration: BoxDecoration(
-                                              color: context
-                                                          .watch<
-                                                              HomeController>()
-                                                          .isTapped ==
-                                                      index
-                                                  ? const Color(0xFF8034DA)
-                                                  : null,
-                                              borderRadius:
-                                                  const BorderRadius.only(
-                                                bottomRight:
-                                                    Radius.circular(40),
-                                                topRight: Radius.circular(40),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        color: context
-                                                    .read<HomeController>()
-                                                    .isTapped ==
-                                                index
-                                            ? Colors.white
-                                            : null,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                        Column(
                                           children: [
-                                            Container(
-                                              height: h * 0.07,
-                                              width: w * 0.12,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: const Color(0xFFE3E1F1),
-                                                image: DecorationImage(
-                                                    image: AssetImage(
-                                                      hP.rowImageList[index],
-                                                    ),
-                                                    fit: BoxFit.contain),
+                                            Expanded(
+                                              child: Container(
+                                                width: w * 0.01,
+                                                decoration: BoxDecoration(
+                                                  color: context
+                                                              .watch<
+                                                                  HomeController>()
+                                                              .isTapped ==
+                                                          index
+                                                      ? const Color(0xFF8034DA)
+                                                      : null,
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                    bottomRight:
+                                                        Radius.circular(40),
+                                                    topRight:
+                                                        Radius.circular(40),
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                            // h5,
-                                            Text(hP.rowCategoryList[index],
-                                                style: GoogleFonts.manrope(
-                                                  fontSize: h * 0.01,
-                                                  fontWeight: FontWeight.w500,
-                                                )),
+                                            )
                                           ],
                                         ),
-                                      ),
+                                        Expanded(
+                                          child: Container(
+                                            color: context
+                                                        .read<HomeController>()
+                                                        .isTapped ==
+                                                    index
+                                                ? Colors.white
+                                                : null,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  height: h * 0.07,
+                                                  width: w * 0.12,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color:
+                                                        const Color(0xFFE3E1F1),
+                                                    image: DecorationImage(
+                                                        image: AssetImage(
+                                                          hP.rowImageList[
+                                                              index],
+                                                        ),
+                                                        fit: BoxFit.contain),
+                                                  ),
+                                                ),
+                                                Text(hP.rowCategoryList[index],
+                                                    style: GoogleFonts.manrope(
+                                                      fontSize: h * 0.01,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-
-              // Second column (category sections)
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: h * 0.015, vertical: h * 0.018),
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    controller: hP.scrollController,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const CustomText(
-                                text: 'Women',
-                                fontSize: 12,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.w500),
-                            SizedBox(
-                              width: w * 0.015,
+                                  ),
+                                );
+                              },
                             ),
-                            Flexible(
-                              child: Divider(
-                                height: 0,
-                                thickness: 1,
-                                color: Colors.grey[300],
-                              ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // Second column (category sections)
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: h * 0.015, vertical: h * 0.018),
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        controller: hP.scrollController,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CategoryItem(
+                              key: hP.categoryKeys[0],
+                              w: w,
+                              h: h,
+                              categoryName: 'Kids',
+                            ),
+                            SizedBox(height: h * 0.015),
+                            Categories(
+                              h: h,
+                              w: w,
+                              hP: hP,
+                              titleText: 'Upper Wear',
+                              displayImageList: hP.displayImageList,
+                            ),
+                            SizedBox(height: h * 0.015),
+                            Categories(
+                              h: h,
+                              w: w,
+                              hP: hP,
+                              titleText: 'Lower Wear',
+                              displayImageList: hP.displayImageList,
+                            ),
+                            SizedBox(height: h * 0.015),
+                            CategoryItem(
+                              key: hP.categoryKeys[1],
+                              w: w,
+                              h: h,
+                              categoryName: 'Mobile',
+                            ),
+                            SizedBox(height: h * 0.015),
+                            Categories(
+                              h: h,
+                              w: w,
+                              hP: hP,
+                              titleText: 'Beauty Product',
+                              displayImageList: hP.beautyProductList,
+                            ),
+                            SizedBox(height: h * 0.015),
+                            Categories(
+                              h: h,
+                              w: w,
+                              hP: hP,
+                              titleText: 'Inner wear',
+                              displayImageList: hP.displayImageList,
+                            ),
+                            SizedBox(height: h * 0.015),
+                            CategoryItem(
+                              key: hP.categoryKeys[2],
+                              w: w,
+                              h: h,
+                              categoryName: 'Electronics',
+                            ),
+                            SizedBox(height: h * 0.015),
+                            Categories(
+                              h: h,
+                              w: w,
+                              hP: hP,
+                              titleText: 'Lounge wear',
+                              displayImageList: hP.beautyProductList,
+                            ),
+                            SizedBox(height: h * 0.015),
+                            CategoryItem(
+                              key: hP.categoryKeys[3],
+                              w: w,
+                              h: h,
+                              categoryName: 'Women',
+                            ),
+                            SizedBox(height: h * 0.015),
+                            Categories(
+                              h: h,
+                              w: w,
+                              hP: hP,
+                              titleText: 'Sleep wear',
+                              displayImageList: hP.displayImageList,
+                            ),
+                            SizedBox(height: h * 0.015),
+                            Categories(
+                              h: h,
+                              w: w,
+                              hP: hP,
+                              titleText: 'Party wear',
+                              displayImageList: hP.beautyProductList,
+                            ),
+                            SizedBox(height: h * 0.015),
+                            CategoryItem(
+                              key: hP.categoryKeys[4],
+                              w: w,
+                              h: h,
+                              categoryName: 'Men',
+                            ),
+                            SizedBox(height: h * 0.015),
+                            Categories(
+                              h: h,
+                              w: w,
+                              hP: hP,
+                              titleText: 'Ethinic wear',
+                              displayImageList: hP.displayImageList,
+                            ),
+                            SizedBox(height: h * 0.015),
+                            CategoryItem(
+                              key: hP.categoryKeys[5],
+                              w: w,
+                              h: h,
+                              categoryName: 'Decor',
+                            ),
+                            SizedBox(height: h * 0.015),
+                            Categories(
+                              h: h,
+                              w: w,
+                              hP: hP,
+                              titleText: 'Halloween wear',
+                              displayImageList: hP.beautyProductList,
+                            ),
+                            SizedBox(height: h * 0.015),
+                            CategoryItem(
+                              key: hP.categoryKeys[6],
+                              w: w,
+                              h: h,
+                              categoryName: 'Furniture',
+                            ),
+                            SizedBox(height: h * 0.015),
+                            Categories(
+                              h: h,
+                              w: w,
+                              hP: hP,
+                              titleText: 'Occasion wear',
+                              displayImageList: hP.beautyProductList,
+                            ),
+                            SizedBox(
+                              height: h * 0.4,
                             ),
                           ],
                         ),
-                        SizedBox(height: h * 0.015),
-                        Categories(
-                          key: hP.categoryKeys[0],
-                          h: h,
-                          w: w,
-                          hP: hP,
-                          titleText: 'Upper Wear',
-                          displayImageList: hP.displayImageList,
-                        ),
-                        SizedBox(height: h * 0.015),
-                        Categories(
-                          key: hP.categoryKeys[1],
-                          h: h,
-                          w: w,
-                          hP: hP,
-                          titleText: 'Lower Wear',
-                          displayImageList: hP.displayImageList,
-                        ),
-                        SizedBox(height: h * 0.015),
-                        Categories(
-                          key: hP.categoryKeys[2],
-                          h: h,
-                          w: w,
-                          hP: hP,
-                          titleText: 'Beauty Product',
-                          displayImageList: hP.beautyProductList,
-                        ),
-                        SizedBox(height: h * 0.015),
-                        Categories(
-                          key: hP.categoryKeys[3],
-                          h: h,
-                          w: w,
-                          hP: hP,
-                          titleText: 'Inner wear',
-                          displayImageList: hP.displayImageList,
-                        ),
-                        SizedBox(height: h * 0.015),
-                        Categories(
-                          key: hP.categoryKeys[4],
-                          h: h,
-                          w: w,
-                          hP: hP,
-                          titleText: 'Lounge wear',
-                          displayImageList: hP.beautyProductList,
-                        ),
-                        SizedBox(height: h * 0.015),
-                        Categories(
-                          key: hP.categoryKeys[5],
-                          h: h,
-                          w: w,
-                          hP: hP,
-                          titleText: 'Sleep wear',
-                          displayImageList: hP.displayImageList,
-                        ),
-                        SizedBox(height: h * 0.015),
-                        Categories(
-                          key: hP.categoryKeys[6],
-                          h: h,
-                          w: w,
-                          hP: hP,
-                          titleText: 'Party wear',
-                          displayImageList: hP.beautyProductList,
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Interom extends StatefulWidget {
+  const Interom({super.key});
+
+  @override
+  State<Interom> createState() => _InteromState();
+}
+
+class _InteromState extends State<Interom> {
+  @override
+  Widget build(BuildContext context) {
+    final h = MediaQuery.of(context).size.height;
+    final w = MediaQuery.of(context).size.width;
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+      ),
+      body: Container(
+        color: Colors.blue,
+        height: h,
+        width: w,
       ),
     );
   }

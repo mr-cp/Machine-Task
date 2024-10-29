@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -12,11 +13,11 @@ Future<void> main() async {
     [DeviceOrientation.portraitUp],
   );
 
-  runApp(const MyApp(),
-    // DevicePreview(
-    //   enabled: true,
-    //   builder: (BuildContext context) =>
-    // ),
+  runApp(
+    DevicePreview(
+      enabled: true,
+      builder: (BuildContext context) => const MyApp(),
+    ),
   );
 }
 

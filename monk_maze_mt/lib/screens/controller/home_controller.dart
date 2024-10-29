@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 class HomeController extends ChangeNotifier {
   bool? isVisible = false;
+
+  bool _isScrollingProgrammatically = false;
+
   int _isTapped = 0;
   int get isTapped => _isTapped;
 
@@ -59,14 +62,46 @@ class HomeController extends ChangeNotifier {
     5: GlobalKey(),
     6: GlobalKey(),
   };
+
   void scrollToCategory(int index) {
+    _isScrollingProgrammatically = true;
     final context = categoryKeys[index]?.currentContext;
     if (context != null) {
       Scrollable.ensureVisible(
         context,
         duration: const Duration(milliseconds: 500),
-        // alignment: 0.2,
-      );
+        curve: Curves.bounceIn,
+      ).then((_) => _isScrollingProgrammatically = false);
+      _isTapped = index;
+      notifyListeners();
     }
+  }
+
+  HomeController() {
+    scrollController.addListener(_updateActiveCategoryOnScroll);
+  }
+
+  void _updateActiveCategoryOnScroll() {
+    if (_isScrollingProgrammatically) return; 
+    for (int index = 0; index < categoryKeys.length; index++) {
+      final context = categoryKeys[index]?.currentContext;
+      if (context != null) {
+        final renderBox = context.findRenderObject() as RenderBox;
+        final position = renderBox.localToGlobal(Offset.zero).dy;
+        if (position >= 0 && position < 200) {
+          if (_isTapped != index) {
+            _isTapped = index;
+            notifyListeners();
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 }

@@ -20,8 +20,11 @@ class _HomeScreenContainerState extends State<HomeScreenContainer> {
       height: h,
       width: w,
       child: LayoutBuilder(
-        builder: (context, constraints) =>
-            constraints.maxWidth < 500 ? const MobileView() : TabletView(w: w),
+        builder: (context, constraints) => constraints.maxWidth < 500
+            ? const MobileView()
+            : TabletView(
+                w: w,
+              ),
       ),
     );
   }

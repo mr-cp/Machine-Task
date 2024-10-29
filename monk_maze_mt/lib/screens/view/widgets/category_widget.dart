@@ -31,7 +31,7 @@ class Categories extends StatelessWidget {
       children: [
         CustomText(
           text: titleText,
-          fontSize: fontSize,
+          fontSize: h*0.016,
           color: Colors.black,
           fontWeight: FontWeight.w600,
         ),
