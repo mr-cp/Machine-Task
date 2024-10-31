@@ -82,7 +82,7 @@ class HomeController extends ChangeNotifier {
   }
 
   void _updateActiveCategoryOnScroll() {
-    if (_isScrollingProgrammatically) return; 
+    if (_isScrollingProgrammatically) return;
     for (int index = 0; index < categoryKeys.length; index++) {
       final context = categoryKeys[index]?.currentContext;
       if (context != null) {
